@@ -21,7 +21,7 @@ class BombAreaModel: NSObject {
     var columns: Int //列数
     var level: Int //游戏等级
     
-    //下表脚本
+    //下标脚本
     subscript(row: Int, column: Int)->Point{
         get {
             return bombArr[row*self.rows+column]
@@ -82,7 +82,6 @@ class BombAreaModel: NSObject {
                     }
                     self[i,col+1].value += 1
                 }
-                
             }
             
             //下

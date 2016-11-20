@@ -24,7 +24,7 @@ class BombAreaView: UIView {
         }
     }
     
-    weak var delegate: UIViewController!
+    weak var delegate: ViewController!
     
     init(frame: CGRect, bombAreaModel: BombAreaModel) {
         self.model = bombAreaModel
@@ -80,12 +80,12 @@ class BombAreaView: UIView {
         
     }
     
-    func stepOn(col:Int,row:Int)->Bool{
+    func stepOn(col:Int,row:Int)->Void{
         //传入的row col表示要踩的点
         
         //如果该位置不是隐藏状态,本函数立即返回fale
         if self.model[row,col].hidden == false {
-            return false
+            return
         }
         
         if self.model[row,col].value < 0{
@@ -107,6 +107,10 @@ class BombAreaView: UIView {
             let alertAction = UIAlertAction.init(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil);
             alertController.addAction(alertAction)
             
+            if let timer = self.delegate.timer {
+                timer.invalidate()
+                self.delegate.timer = nil
+            }
             self.delegate.present(alertController, animated: true, completion: nil)
             
         }else if self.model[row,col].value > 0{
@@ -121,7 +125,6 @@ class BombAreaView: UIView {
             btn.isEnabled = false
             openArea(inRow:row,inCol: col)
         }
-        return false
     }
     
     private func openArea(inRow row:Int, inCol col:Int){
