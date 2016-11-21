@@ -16,9 +16,13 @@ struct Point {
 class BombAreaModel: NSObject {
     
     var bombArr: [Point] //雷区
+    
     var bombTotals: Int //雷数
-    var rows: Int //行数
+    
+    var rows:Int //行数
+    
     var columns: Int //列数
+    
     var level: Int //游戏等级
     
     //下标脚本
@@ -26,7 +30,7 @@ class BombAreaModel: NSObject {
         get {
             return bombArr[row*self.rows+column]
         }
-    
+        
         set {
             bombArr[row*self.rows+column] = newValue
         }
@@ -46,7 +50,7 @@ class BombAreaModel: NSObject {
     //设置雷区
     func setBombInLocation() {
         
-        for _ in 0...self.bombTotals {
+        for _ in 0...self.bombTotals-1 {
             
             var row = 0
             var col = 0
@@ -89,8 +93,31 @@ class BombAreaModel: NSObject {
                 self[row+1,col].value += 1
             }
         }
+    }
+    
+    func cheatInConsole() {
         
-
+        for i in 0...self.bombArr.count-1 {
+            
+            if (i+1)%self.columns == 0 {
+                
+                if self.bombArr[i].value < 0 {
+                    print("x",separator:"",terminator:"\n")
+                    
+                }else{
+                    print("\(self.bombArr[i].value)", separator: "", terminator: "\n")
+                }
+                
+            }else {
+                
+                if self.bombArr[i].value < 0 {
+                    print("x",separator:"",terminator:"\t")
+                }else {
+                    print("\(self.bombArr[i].value)",separator:"",terminator:"\t")
+                }
+            }
+        }
+        
     }
 }
 

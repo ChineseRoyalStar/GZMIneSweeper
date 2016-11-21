@@ -66,13 +66,6 @@ class BombAreaView: UIView {
         
         let clickIndex = sender.tag - 100
         
-//        if !sender.isEnabled {
-//            return
-//        }else {
-//            sender.isEnabled = false;
-//
-//        }
-        
         let col = clickIndex%self.model.columns
         let row = clickIndex/self.model.columns
         
@@ -115,20 +108,21 @@ class BombAreaView: UIView {
             
         }else if self.model[row,col].value > 0{
             
+            self.model[row,col].hidden = false
             let tag = 100 + row*self.model.columns + col
             let btn = self.viewWithTag(tag) as! UIButton
             btn.isEnabled = false
+            checkConditionOfWin()
             
         }else{//如果等于0,要把一圈反过来
-            let tag = 100 + row*self.model.columns + col
-            let btn = self.viewWithTag(tag) as! UIButton
-            btn.isEnabled = false
+    
             openArea(inRow:row,inCol: col)
         }
     }
     
     private func openArea(inRow row:Int, inCol col:Int){
         
+        self.model[row,col].hidden = false
         let tag = 100 + row*self.model.columns + col
         let btn = self.viewWithTag(tag) as! UIButton
         btn.isEnabled = false
@@ -215,8 +209,27 @@ class BombAreaView: UIView {
                 btn.isEnabled = false
             }
         }
+        
+        checkConditionOfWin()
     }
 
+    func checkConditionOfWin() -> Void{
+        
+        var leftHidden = 0
+        for point in self.model.bombArr {
+            
+            if(point.hidden){
+                leftHidden += 1
+            }
+        }
+
+        if leftHidden == self.model.bombTotals {
+            let alert = UIAlertController.init(title: "恭喜你", message: "你赢了", preferredStyle: UIAlertControllerStyle.alert)
+            let alertAction = UIAlertAction.init(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
+            alert.addAction(alertAction)
+            self.delegate.present(alert, animated: true, completion: nil)
+        }
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -16,17 +16,18 @@ class ViewController: UIViewController {
     
     private var bgImgView: UIImageView! //背景图
     
-    private var timerLabel: UILabel!
+    private var timerLabel: UILabel! //计时器
     
     var timer: Timer! //定时器
     
-    private var currentCount = 0
+    private var currentCount = 0 //当前计时时间
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.automaticallyAdjustsScrollViewInsets = false
         self.prepareForLayout()
+       // self.bombView.model.cheatInConsole()
     }
     
     private func prepareForLayout() {
@@ -36,14 +37,13 @@ class ViewController: UIViewController {
         self.view.addSubview(self.bgImgView)
         
         //生成雷区
-        self.bombModel = BombAreaModel.init(level: 3)
+        self.bombModel = BombAreaModel.init(level: 1)
         self.bombView = BombAreaView.init(frame: CGRect.init(x: 0, y: 0, width: 350, height: 350), bombAreaModel: self.bombModel)
         self.bombView.center = self.view.center
         self.bombView.delegate = self
         self.view.addSubview(self.bombView)
         
-        //创建计时器
-        
+        //创建计时器标签
         self.timerLabel = UILabel.init(frame:CGRect.init(x: 0, y: 0, width: 70, height: 40))
         self.timerLabel.backgroundColor = UIColor.black
         self.timerLabel.center.x = self.view.center.x-100
@@ -55,7 +55,7 @@ class ViewController: UIViewController {
         self.view.addSubview(self.timerLabel)
         
         //创建重新开始按钮
-        let restartBtn =  UIButton.init(frame: CGRect.init(x: 0, y: 0, width: 50, height: 50))
+        let restartBtn = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: 50, height: 50))
         restartBtn.center.x = self.view.center.x
         restartBtn.center.y = 100
         restartBtn.setImage(UIImage.init(named: "restart.jpg"), for: UIControlState.normal)
@@ -79,7 +79,7 @@ class ViewController: UIViewController {
         self.bombView = nil
         self.bombModel = nil
         
-        self.bombModel = BombAreaModel.init(level: 3)
+        self.bombModel = BombAreaModel.init(level: 1)
         self.bombView = BombAreaView.init(frame: CGRect.init(x: 0, y: 0, width: 350, height: 350), bombAreaModel: self.bombModel)
         self.bombView.center = self.view.center
         self.bombView.delegate = self
